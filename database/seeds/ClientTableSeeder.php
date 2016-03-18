@@ -13,8 +13,8 @@ class ClientTableSeeder extends Seeder
     {
         // $this-
         //Apaga todos registros
-        \CodeProject\Client::truncate();
+        \CodeProject\Entities\Client::truncate();
         //criar os registros
-        factory(\CodeProject\Client::class, 10)->create();//
+        factory(\CodeProject\Entities\Client::class, 10)->create();//
     }
 }
