@@ -65,7 +65,7 @@ class ProjectService
     public function all($limit = null)
     {
         try {
-            return $this->repository->paginate($limit);
+            return $this->repository->with(['owner', 'client'])->paginate($limit);
         } catch (\Exception $e) {
             return [
                 "error" => true,
@@ -77,7 +77,7 @@ class ProjectService
     public function find($id)
     {
         try {
-            return $this->repository->find($id);
+            return $this->repository->with(['owner', 'client'])->find($id);
         } catch (\Exception $e) {
             return [
                 "error" => true,

@@ -19,11 +19,11 @@ class Project extends Model
 
     public function owner()
     {
-        return $this->belongsTo('CodeProject\User');
+        return $this->belongsTo(User::class);
     }
 
     public function client()
     {
-        return $this->belongsTo('CodeProject\Client');
+        return $this->belongsTo(Client::class);
     }
 }

@@ -39,6 +39,6 @@ class User extends Model implements AuthenticatableContract,
 
     public function projects()
     {
-        return $this->hasMany('CodeCommerce\Project');
+        return $this->hasMany(Project::class);
     }
 }
