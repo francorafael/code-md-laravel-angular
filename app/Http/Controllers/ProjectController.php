@@ -2,14 +2,20 @@
 
 namespace CodeProject\Http\Controllers;
 
-use CodeProject\Repositories\ClientRepository;
+use CodeProject\Repositories\ProjectRepository;
 use CodeProject\Services\ClientService;
+
+use CodeProject\Services\ProjectService;
 use Illuminate\Http\Request;
 
-class ClientController extends Controller
+use CodeProject\Http\Requests;
+use CodeProject\Http\Controllers\Controller;
+
+class ProjectController extends Controller
 {
+
     /**
-     * @var ClientRepository
+     * @var ProjectRepository
      */
     private $repository;
 
@@ -19,10 +25,9 @@ class ClientController extends Controller
     private $service;
 
     /**
-     * @param ClientRepository $repository
-     * @param ClientService $service
+     * @param ProjectRepository $repository
      */
-    public function __construct(ClientRepository $repository, ClientService $service)
+    public function __construct(ProjectRepository $repository, ProjectService $service)
     {
         $this->repository = $repository;
         $this->service = $service;
@@ -33,11 +38,20 @@ class ClientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        return $this->service->all($request->query->get('limit'));
+        return $this->service->all();
     }
 
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -58,7 +72,8 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        return $this->service->find($id);
+        //
+       return  $this->service->find($id);
     }
 
     /**

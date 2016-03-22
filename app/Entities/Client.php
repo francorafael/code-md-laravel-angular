@@ -15,4 +15,9 @@ class Client extends Model
         'address',
         'obs'
     ];
+
+    public function projects()
+    {
+        return $this->hasMany('CodeCommerce\Project');
+    }
 }
