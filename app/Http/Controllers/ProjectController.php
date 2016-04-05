@@ -10,6 +10,10 @@ use Illuminate\Http\Request;
 
 use CodeProject\Http\Requests;
 use CodeProject\Http\Controllers\Controller;
+use LucaDegasperi\OAuth2Server\Facades\Authorizer;
+
+
+
 
 class ProjectController extends Controller
 {
@@ -40,7 +44,8 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        return $this->service->all();
+        //return $this->service->all();
+        return $this->repository->findWhere(['owner_id' => Authorizer::getResourceOwnerId()]);
     }
 
     /**
@@ -72,7 +77,10 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        //
+
+        if($this->checkProjectPermissions($id)==false) {
+            return ['error' => 'Access Forbidden'];
+        }
        return  $this->service->find($id);
     }
 
@@ -96,6 +104,9 @@ class ProjectController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if($this->checkProjectOwner($id)==false) {
+            return ['error' => 'Access Forbidden'];
+        }
         $this->service->update($request->all(), $id);
     }
 
@@ -107,6 +118,29 @@ class ProjectController extends Controller
      */
     public function destroy($id)
     {
+        if($this->checkProjectOwner($id)==false) {
+            return ['error' => 'Access Forbidden'];
+        }
         return $this->service->delete($id);
+    }
+
+    private function checkProjectOwner($projectId)
+    {
+        $userId = Authorizer::getResourceOwnerId();
+        return $this->repository->isOwner($projectId, $userId);
+    }
+
+    private function checkProjectMember($projectId)
+    {
+        $userId = Authorizer::getResourceOwnerId();
+        return $this->repository->hasMember($projectId, $userId);
+    }
+
+    private function checkProjectPermissions($projectId)
+    {
+        if( $this->checkProjectOwner($projectId) or $this->checkProjectMember($projectId)){
+            return true;
+        }
+        return false;
     }
 }

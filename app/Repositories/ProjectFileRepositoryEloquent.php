@@ -2,16 +2,16 @@
 
 namespace CodeProject\Repositories;
 
-use CodeProject\Presenters\ProjectMemberPresenter;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use CodeProject\Entities\ProjectMember;
+use CodeProject\Entities\ProjectFile;
+use CodeProject\Presenters\ProjectFilePresenter;
 
 /**
- * Class ProjectMemberRepositoryEloquent
+ * Class ProjectFileRepositoryEloquent
  * @package namespace CodeProject\Repositories;
  */
-class ProjectMemberRepositoryEloquent extends BaseRepository implements ProjectMemberRepository
+class ProjectFileRepositoryEloquent extends BaseRepository implements ProjectFileRepository
 {
     /**
      * Specify Model class name
@@ -20,26 +20,24 @@ class ProjectMemberRepositoryEloquent extends BaseRepository implements ProjectM
      */
     public function model()
     {
-        return ProjectMember::class;
+        return ProjectFile::class;
     }
 
-    
+    public function presenter()
+    {
+        return ProjectFilePresenter::class;
+    }
 
     /**
      * Boot up the repository, pushing criteria
      */
     public function boot()
     {
-        $this->pushCriteria(app(RequestCriteria::class));
+        $this->pushCriteria( app(RequestCriteria::class) );
     }
 
-    public function getMembers($projectId)
+    public function getFiles($projectId)
     {
         return $this->findWhere(['project_id' => $projectId]);
-    }
-
-    public function presenter()
-    {
-        return ProjectMemberPresenter::class;
     }
 }

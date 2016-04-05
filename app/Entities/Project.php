@@ -37,8 +37,14 @@ class Project extends Model
         return $this->hasMany(ProjectTask::class);
     }
 
-    public function members()
+       public function members()
     {
         return $this->belongsToMany(User::class, 'project_members', 'project_id', 'member_id');
     }
+
+    public function files()
+    {
+        return $this->hasMany(ProjectFile::class);
+    }
+
 }
